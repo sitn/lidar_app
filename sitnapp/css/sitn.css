@@ -10,16 +10,11 @@ Customize default viewer
     color: lightgray;
 }
 
-/*hide coordinates and units infos*/
-.pv-menu-list div{
-    /* display: none; */
-}
 
 .pv-menu-list {
     font-family: arial !important;
 }
 
-/* Hide potree infos menu */
 #potree_branding {
     display: none !important;
 }
@@ -35,4 +30,10 @@ Customize default viewer
 
 .annotation-label {
 
+}
+
+.scene_header_title {
+    background-image: url('../images/gear.png');
+    background-repeat: no-repeat;
+    background-position: right bottom;
 }
