@@ -12,6 +12,9 @@ sitn.setup = function (){
     // Customize UI...
     $("#lblCameraPosition").parents('ul').css("visibility", "hidden");
     $("#lblCameraPosition").parents('ul').css("height", "0px");
+    
+    // hide tile layer in ol3 map
+    viewer.mapView.getSourcesLayer().setVisible(false);
 
 }
 
