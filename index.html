@@ -48,8 +48,8 @@
 		
 		viewer.setEDLEnabled(true);
 		viewer.setFOV(60);
-		viewer.setPointBudget(0.1*1000*1000);
-        viewer.setMinNodeSize(100);
+		viewer.setPointBudget(1*1000*1000);
+        viewer.setMinNodeSize(50);
 		viewer.loadSettingsFromURL();
 		
 		viewer.setDescription("<p class='sitn-title'>Géoportail LiDAR du <a target='_blank' href='http://sitn.ne.ch/'>SITN</a></p>");
@@ -62,7 +62,7 @@
 		});
 		
 		// Load and add point cloud to scene
-		Potree.loadPointCloud("../../potree_data/clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
+		Potree.loadPointCloud("../lidar/potree_data/clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -72,8 +72,8 @@
 			scene.addPointCloud(pointcloud);
 			viewer.fitToScreen();
 		});
-        
-        Potree.loadPointCloud("../../potree_data/clouds/2010/cloud.js", "SITN2010", e => {
+
+        Potree.loadPointCloud("../lidar/potree_data/clouds/2010/cloud.js", "SITN2010", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -85,8 +85,8 @@
 			scene.addPointCloud(pointcloud);
 			viewer.fitToScreen();
 		});
-        
-        Potree.loadPointCloud("../../potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
+
+        Potree.loadPointCloud("../lidar/potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -98,8 +98,7 @@
 			viewer.fitToScreen();
 
 		});
-        //scene.view.position.set(589974.341, 231698.397, 986.146);
-        //scene.view.lookAt(new THREE.Vector3(589851.587, 231428.213, 715.634));
+
 	</script>
 	
 	
