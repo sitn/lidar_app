@@ -1,0 +1,38 @@
+/*
+Customize default viewer
+*/
+
+.sitn-title {
+    font-family: arial;
+}
+
+.sitn-title a {
+    color: lightgray;
+}
+
+/*hide coordinates and units infos*/
+.pv-menu-list div{
+    /* display: none; */
+}
+
+.pv-menu-list {
+    font-family: arial !important;
+}
+
+/* Hide potree infos menu */
+#potree_branding {
+    display: none !important;
+}
+
+#potree_languages {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.scene_content {
+    visibility: visible;
+}
+
+.annotation-label {
+
+}
