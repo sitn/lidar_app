@@ -53,9 +53,14 @@
                 },
                 success: function(data) {
                     console.log(data)
-                    let newPosition = new THREE.Vector3(coord[0], coord[1], data.mns + 200);
-                    console.log(newPosition)
+                    let z = parseInt(data.mns) + 200;
+                    let newPosition = new THREE.Vector3(coord[0], coord[1], z);
                     viewer.scene.camera.position.set(newPosition);
+                    viewer.scene.view.position.x = coord[0];
+                    viewer.scene.view.position.y = coord[1];
+                    viewer.scene.view.position.z = z;
+                    viewer.scene.view.radius = 150
+                    viewer.setMoveSpeed(150);
                 }
             })
         }
