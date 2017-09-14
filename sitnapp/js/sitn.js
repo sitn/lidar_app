@@ -70,7 +70,6 @@ sitn.setupClassifications = function () {
     };
 
     for (cls in viewer.classifications) {
-        console.log(cls);
         addClassificationItem(cls, viewer.classifications[cls].name);
     }
 };
@@ -102,7 +101,6 @@ sitn.loadInitialAnnotations = function (url, zoom_out) {
                     sitn.loadAnnotations('sitnapp/data/annotations/' + geojson.features[i].properties.next_file, 250);
                 }
                 annotations[i].firstLevel = true;
-                console.log(annotations[i])
             }
         },
         error: function(req, status, err) {
