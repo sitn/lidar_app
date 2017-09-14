@@ -42,7 +42,6 @@
         select: function(event, ui) {
 
             coord = ui.item.geom.coordinates;
-
             $.ajax({
                 url: "http://sitn.ne.ch/production/wsgi/raster?",
                 dataType: "jsonp",
@@ -52,8 +51,8 @@
                     'layers': 'mns'
                 },
                 success: function(data) {
-                    console.log(data)
-                    let z = parseInt(data.mns) + 200;
+                    let zoom_out = 200;
+                    let z = parseInt(data.mns) + zoom_out;
                     let newPosition = new THREE.Vector3(coord[0], coord[1], z);
                     viewer.scene.camera.position.set(newPosition);
                     viewer.scene.view.position.x = coord[0];
@@ -61,6 +60,20 @@
                     viewer.scene.view.position.z = z;
                     viewer.scene.view.radius = 150
                     viewer.setMoveSpeed(150);
+                    
+                    let annotations = viewer.scene.getAnnotations();
+                    for (let index in annotations.children) {
+                        if (annotations.children[index].description == "Adresse SITN") {
+                            annotations.children[index].visible = false;
+                            // remove from annotation list
+                        }
+                    }
+
+                    viewer.scene.addAnnotation([coord[0], coord[1], z - zoom_out], {
+                        "title": ui.item.label,
+                        "description": 'Adresse SITN'
+                    });
+
                 }
             })
         }
