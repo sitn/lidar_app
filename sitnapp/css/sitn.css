@@ -3,6 +3,7 @@ Customize default viewer
 */
 
 .sitn-title {
+    visibility: hidden;
     font-family: arial;
 }
 
@@ -46,7 +47,7 @@ background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
     width: 400px;
     height: 35px;
     position: absolute;
-    right: 150px;
+    right: 40%;
     top: 10px;
     background-color: white;
     z-index: 10;
@@ -54,8 +55,6 @@ background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
     border: 2px solid;
     border-radius: 5px;
     border-color: lightgray;
-
-    
 }
 
 #gmf_search_input input {
@@ -64,4 +63,6 @@ background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
     margin-top: 2px;
     margin-left: 2px;
     border: none;
+    text-align: center;
+
 }
