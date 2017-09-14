@@ -54,12 +54,7 @@
                     let zoom_out = 200;
                     let z = parseInt(data.mns) + zoom_out;
                     let newPosition = new THREE.Vector3(coord[0], coord[1], z);
-                    viewer.scene.camera.position.set(newPosition);
-                    viewer.scene.view.position.x = coord[0];
-                    viewer.scene.view.position.y = coord[1];
-                    viewer.scene.view.position.z = z;
-                    viewer.scene.view.radius = 150
-                    viewer.setMoveSpeed(150);
+   
                     
                     let annotations = viewer.scene.getAnnotations();
                     for (let index in annotations.children) {
@@ -73,6 +68,13 @@
                         "title": ui.item.label,
                         "description": 'Adresse SITN'
                     });
+                    
+                    viewer.scene.view.position.x = coord[0];
+                    viewer.scene.view.position.y = coord[1];
+                    viewer.scene.view.position.z = z;
+                    viewer.scene.view.radius = 150;
+                    viewer.setMoveSpeed(150);
+                    // viewer.scene.view.pitch = 1.57;
 
                 }
             })
