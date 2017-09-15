@@ -76,33 +76,34 @@
 			material.shape = Potree.PointShape.SQUARE;
 			scene.addPointCloud(pointcloud);
 			viewer.fitToScreen();
-		});
+            
+            Potree.loadPointCloud("potree_data/clouds/2010/cloud.js", "SITN2010", e => {
+                let scene = viewer.scene;
+                let pointcloud = e.pointcloud;
+                let material = pointcloud.material;
+                material.size = 1.5;
+                material.pointSizeType = Potree.PointSizeType.FIXED;
+                material.shape = Potree.PointShape.SQUARE;
+                pointcloud.visible = false;
 
-        Potree.loadPointCloud("potree_data/clouds/2010/cloud.js", "SITN2010", e => {
-			let scene = viewer.scene;
-			let pointcloud = e.pointcloud;
-			let material = pointcloud.material;
-			material.size = 1.5;
-			material.pointSizeType = Potree.PointSizeType.FIXED;
-			material.shape = Potree.PointShape.SQUARE;
-            pointcloud.visible = false;
+                scene.addPointCloud(pointcloud);
+                viewer.fitToScreen();
+                
+                Potree.loadPointCloud("potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
+                    let scene = viewer.scene;
+                    let pointcloud = e.pointcloud;
+                    let material = pointcloud.material;
+                    material.size = 1.5;
+                    material.pointSizeType = Potree.PointSizeType.FIXED;
+                    material.shape = Potree.PointShape.SQUARE;
+                    pointcloud.visible = false;
+                    scene.addPointCloud(pointcloud);
+                    viewer.fitToScreen();
 
-			scene.addPointCloud(pointcloud);
-			viewer.fitToScreen();
-		});
+                });
+            });
 
-        Potree.loadPointCloud("potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
-			let scene = viewer.scene;
-			let pointcloud = e.pointcloud;
-			let material = pointcloud.material;
-			material.size = 1.5;
-			material.pointSizeType = Potree.PointSizeType.FIXED;
-			material.shape = Potree.PointShape.SQUARE;
-            pointcloud.visible = false;
-			scene.addPointCloud(pointcloud);
-			viewer.fitToScreen();
-
-		});
+		})
 
 	</script>
 	
