@@ -10,6 +10,9 @@
     }
  
     $( "#places" ).autocomplete({
+        classes: {
+            "ui-autocomplete": "sitn-autocomplete"
+        },
         source: function( request, response ) {
             $.ajax( {
                 url: "http://sitn.ne.ch/production/wsgi/fulltextsearch?",

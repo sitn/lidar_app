@@ -44,26 +44,53 @@ background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
 }
 
 #gmf_search_input {
-    width: 400px;
-    height: 35px;
+    width: 350px;
+    height:  30px;
     position: absolute;
-    right: 40%;
+    right: 3%;
     top: 10px;
     background-color: white;
     z-index: 10;
-    color: white;
     border: 2px solid;
     border-radius: 5px;
     border-color: lightgray;
+    opacity: 0.8;
 }
 
 #gmf_search_input input {
-    width: 390px;
-    height: 27px;
-    margin-top: 2px;
-    margin-left: 2px;
-    border: none;
+    color: #01193f !important;
+    width: 350px;
+    height: 24px;
     text-align: center;
-
+    border: none;
+    outline:none;
 }
 
+.sitn-autocomplete {
+    color: #01193f !important;
+    width: 350px;
+    font-size: 12px;
+    opacity: 0.8;
+    top: 48px !important;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+@media only screen and (max-width: 500px) {
+    #gmf_search_input {
+        width: 250px;
+        height:  25px;
+    }
+
+    #gmf_search_input input {
+        width: 210px;
+        height: 19px;
+    }
+    
+    .sitn-autocomplete {
+        font-size: 10px;
+        width: 250px;
+        opacity: 0.8;
+        top: 43px !important;
+    }
+}
