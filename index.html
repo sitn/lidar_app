@@ -5,7 +5,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SITN LiDAR Viewer</title>
+    <title>Géoportail LiDAR du SITN</title>
 
 	<link rel="stylesheet" type="text/css" href="potree/build/potree/potree.css">
 	<link rel="stylesheet" type="text/css" href="potree/libs/jquery-ui/jquery-ui.min.css">
@@ -33,11 +33,16 @@
 	<script src="potree/build/potree/potree.js"></script>
 	<link rel="stylesheet" href="sitnapp/css/sitn.css" type="text/css">
     <script src="sitnapp/js/sitn.js"></script>
+    <script src="sitnapp/js/gmf_search_box.js"></script>
 
 	<script src="potree/libs/plasio/js/laslaz.js"></script>
 	<script src="potree/libs/plasio/vendor/bluebird.js"></script>
 
     <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
+    
+        <div id="gmf_search_input">
+            <input id="places" placeholder="Saisir une adresse">
+        </div>
 		<div id="potree_render_area"></div>
 		<div id="potree_sidebar_container"> </div>
     </div>
@@ -62,7 +67,7 @@
 		});
 		
 		// Load and add point cloud to scene
-		Potree.loadPointCloud("../lidar/potree_data/clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
+		Potree.loadPointCloud("../potree_data/clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -73,7 +78,7 @@
 			viewer.fitToScreen();
 		});
 
-        Potree.loadPointCloud("../lidar/potree_data/clouds/2010/cloud.js", "SITN2010", e => {
+        Potree.loadPointCloud("../potree_data/clouds/2010/cloud.js", "SITN2010", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -86,7 +91,7 @@
 			viewer.fitToScreen();
 		});
 
-        Potree.loadPointCloud("../lidar/potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
+        Potree.loadPointCloud("../potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
