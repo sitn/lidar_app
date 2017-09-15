@@ -52,29 +52,32 @@
                 },
                 success: function(data) {
                     let zoom_out = 200;
-                    let z = parseInt(data.mns) + zoom_out;
+                    let alti = parseInt(data.mns);
+                    let z = alti + zoom_out;
                     let newPosition = new THREE.Vector3(coord[0], coord[1], z);
    
                     
-                    let annotations = viewer.scene.getAnnotations();
-                    for (let index in annotations.children) {
-                        if (annotations.children[index].description == "Adresse SITN") {
-                            annotations.children[index].visible = false;
+                    let annotationsA = viewer.scene.getAnnotations();
+                    for (let index in annotationsA.children) {
+                        if (annotationsA.children[index].description == "Adresse SITN") {
+                            annotationsA.children[index].visible = false;
                             // remove from annotation list
                         }
                     }
 
                     viewer.scene.addAnnotation([coord[0], coord[1], z - zoom_out], {
                         "title": ui.item.label,
-                        "description": 'Adresse SITN'
+                        "description": 'Adresse SITN',
+                        "cameraPosition": [coord[0], coord[1], alti + zoom_out],
+                        "cameraTarget": [coord[0], coord[1], alti]
                     });
-                    
-                    viewer.scene.view.position.x = coord[0];
-                    viewer.scene.view.position.y = coord[1];
-                    viewer.scene.view.position.z = z;
-                    viewer.scene.view.radius = 150;
-                    viewer.setMoveSpeed(150);
-                    // viewer.scene.view.pitch = 1.57;
+                    let annotationsB = viewer.scene.getAnnotations();
+                    for (let index in annotationsB.children) {
+                        if (annotationsB.children[index].description == "Adresse SITN") {
+                            console.log("ici")
+                            annotationsB.children[index].moveHere(viewer.scene.camera);
+                        }
+                    }
 
                 }
             })
