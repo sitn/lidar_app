@@ -67,7 +67,7 @@
 		});
 		
 		// Load and add point cloud to scene
-		Potree.loadPointCloud("../potree_data/clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
+		Potree.loadPointCloud("potree_data//clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -78,7 +78,7 @@
 			viewer.fitToScreen();
 		});
 
-        Potree.loadPointCloud("../potree_data/clouds/2010/cloud.js", "SITN2010", e => {
+        Potree.loadPointCloud("potree_data/clouds/2010/cloud.js", "SITN2010", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -91,7 +91,7 @@
 			viewer.fitToScreen();
 		});
 
-        Potree.loadPointCloud("../potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
+        Potree.loadPointCloud("potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
