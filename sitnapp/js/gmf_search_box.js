@@ -61,7 +61,6 @@
                     for (let index in annotationsA.children) {
                         if (annotationsA.children[index].description == "Adresse SITN") {
                             annotationsA.children[index].visible = false;
-                            // remove from annotation list
                         }
                     }
 
@@ -74,7 +73,7 @@
                     let annotationsB = viewer.scene.getAnnotations();
                     for (let index in annotationsB.children) {
                         if (annotationsB.children[index].description == "Adresse SITN") {
-                            console.log("ici")
+                            annotationsB.children[index].elDescription.css('opacity', 0); // hugly hack
                             annotationsB.children[index].moveHere(viewer.scene.camera);
                         }
                     }
