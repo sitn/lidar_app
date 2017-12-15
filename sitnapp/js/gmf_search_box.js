@@ -15,7 +15,7 @@
         },
         source: function( request, response ) {
             $.ajax( {
-                url: "http://sitn.ne.ch/production/wsgi/fulltextsearch?",
+                url: "https://sitn.ne.ch/production/wsgi/fulltextsearch?",
                 dataType: "jsonp",
                 data: {
                     query: request.term,
@@ -46,7 +46,7 @@
 
             coord = ui.item.geom.coordinates;
             $.ajax({
-                url: "http://sitn.ne.ch/production/wsgi/raster?",
+                url: "https://sitn.ne.ch/production/wsgi/raster?",
                 dataType: "jsonp",
                 data: {
                     lon: coord[0],
