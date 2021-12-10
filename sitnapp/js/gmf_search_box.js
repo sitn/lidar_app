@@ -53,7 +53,7 @@
                 coord = [
                     center_x,
                     center_y,
-                ]
+                ];
             }
 
             $.ajax({
