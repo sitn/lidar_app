@@ -46,7 +46,7 @@ sitn.setupClassifications = function () {
         65: { visible: true, name: 'Grues et temporaire' },
         70: { visible: true, name: 'Façades' },
         71: { visible: true, name: 'Murs' },
-        99: { visible: true, name: 'Hors périmètre' },
+        99: { visible: false, name: 'Hors périmètre' },
     };
 
     let elClassificationList = $('#classificationList');
