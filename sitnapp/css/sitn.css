@@ -16,6 +16,10 @@ Customize default viewer
     font-family: arial !important;
 }
 
+#potree_description {
+    font-family: arial;
+}
+
 #potree_branding {
     display: none !important;
 }
