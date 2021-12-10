@@ -1,112 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="author" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Géoportail LiDAR du SITN</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="icon" href="favicon.ico" />
+  <title>Géoportail LiDAR du SITN</title>
+  <link rel="stylesheet" type="text/css" href="./potree/build/potree/potree.css">
+  <link rel="stylesheet" type="text/css" href="./potree/libs/jquery-ui/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="./potree/libs/openlayers3/ol.css">
+  <link rel="stylesheet" type="text/css" href="./potree/libs/spectrum/spectrum.css">
+  <link rel="stylesheet" type="text/css" href="./potree/libs/jstree/themes/mixed/style.css">
+  <link rel="stylesheet" href="sitnapp/css/sitn.css" type="text/css">
+</head>
 
-	<link rel="stylesheet" type="text/css" href="potree/build/potree/potree.css">
-	<link rel="stylesheet" type="text/css" href="potree/libs/jquery-ui/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" href="potree/libs/perfect-scrollbar/css/perfect-scrollbar.css">
-	<link rel="stylesheet" href="potree/libs/openlayers3/ol.css" type="text/css">
-	<link rel="stylesheet" href="potree/libs/spectrum/spectrum.css" type="text/css">
-  </head>
-
-  <body>
+<body>
+  <script>
+    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+      if (isIE) {
+        alert('Internet Explorer n\'est pas supporté pour cette application, vous allez être redirigés vers le Géoportail 2D');
+        window.location.replace("https://sitn.ne.ch");
+      }
+  </script>
+  <script src="./potree/libs/jquery/jquery-3.1.1.min.js"></script>
+  <script src="./potree/libs/spectrum/spectrum.js"></script>
+  <script src="./potree/libs/jquery-ui/jquery-ui.min.js"></script>
+  <script src="./potree/libs/three.js/build/three.min.js"></script>
+  <script src="./potree/libs/three.js/extra/lines.js"></script>
+  <script src="./potree/libs/other/BinaryHeap.js"></script>
+  <script src="./potree/libs/tween/tween.min.js"></script>
+  <script src="./potree/libs/d3/d3.js"></script>
+  <script src="./potree/libs/proj4/proj4.js"></script>
+  <script src="./potree/libs/openlayers3/ol.js"></script>
+  <script src="./potree/libs/i18next/i18next.js"></script>
+  <script src="./potree/libs/jstree/jstree.js"></script>
+  <script src="./potree/build/potree/potree.js"></script>
+  <script src="./potree/libs/plasio/js/laslaz.js"></script>
   
-	<script src="potree/libs/jquery/jquery-3.1.1.js"></script>
-	<script src="potree/libs/spectrum/spectrum.js"></script>
-	
-	<script src="potree/libs/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
-	<script src="potree/libs/jquery-ui/jquery-ui.min.js"></script>
-	<script src="potree/libs/three.js/build/three.js"></script>
-	<script src="potree/libs/other/stats.min.js"></script>
-	<script src="potree/libs/other/BinaryHeap.js"></script>
-	<script src="potree/libs/tween/tween.min.js"></script>
-	<script src="potree/libs/d3/d3.js"></script>
-	<script src="potree/libs/proj4/proj4.js"></script>
-	<script src="potree/libs/openlayers3/ol.js"></script>
-    <script src="potree/libs/i18next/i18next.js"></script>
-	
-	<script src="potree/build/potree/potree.js"></script>
-	<link rel="stylesheet" href="sitnapp/css/sitn.css" type="text/css">
-    <script src="sitnapp/js/sitn.js"></script>
-    <script src="sitnapp/js/gmf_search_box.js"></script>
+  <script src="sitnapp/js/sitn.js"></script>
+  <script src="sitnapp/js/gmf_search_box.js"></script>
+  
+  <!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
 
-	<script src="potree/libs/plasio/js/laslaz.js"></script>
-	<script src="potree/libs/plasio/vendor/bluebird.js"></script>
-
-    <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
-    
-        <div id="gmf_search_input">
-            <input id="places" placeholder="Saisir une adresse">
-        </div>
-		<div id="potree_render_area"></div>
-		<div id="potree_sidebar_container"> </div>
+  
+  <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
+    <div id="gmf_search_input">
+      <input id="places" placeholder="Saisir une adresse">
     </div>
-	
-	<script>
-	
-		window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
-		
-		viewer.setEDLEnabled(true);
-		viewer.setFOV(60);
-		viewer.setPointBudget(3*1000*1000);
-        viewer.setMinNodeSize(50);
-		viewer.loadSettingsFromURL();
-		
-		viewer.setDescription("<p class='sitn-title'>Géoportail LiDAR du <a target='_blank' href='http://sitn.ne.ch/'>SITN</a></p>");
-		
-		viewer.loadGUI(() => {
-            $("#menu_scene").next().show();
-            viewer.setLanguage('fr');
-            sitn.setup();
+    <div id="potree_render_area"></div>
+    <div id="potree_sidebar_container"> </div>
+  </div>
+  
+  <script>
 
-		});
-		
-		// Load and add point cloud to scene
-		Potree.loadPointCloud("potree_data/clouds/2016/pointclouds/lidar2016_14levels/cloud.js", "SITN2016", e => {
-			let scene = viewer.scene;
-			let pointcloud = e.pointcloud;
-			let material = pointcloud.material;
-			material.size = 1.5;
-			material.pointSizeType = Potree.PointSizeType.FIXED;
-			material.shape = Potree.PointShape.SQUARE;
-			scene.addPointCloud(pointcloud);
-			viewer.fitToScreen();
-            
-            Potree.loadPointCloud("potree_data/clouds/2010/cloud.js", "SITN2010", e => {
-                let scene = viewer.scene;
-                let pointcloud = e.pointcloud;
-                let material = pointcloud.material;
-                material.size = 1.5;
-                material.pointSizeType = Potree.PointSizeType.FIXED;
-                material.shape = Potree.PointShape.SQUARE;
-                pointcloud.visible = false;
+  window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+    
+  viewer.setEDLEnabled(true);
+  viewer.setFOV(60);
+  viewer.setPointBudget(4*1000*1000);
+  viewer.loadSettingsFromURL();
+  viewer.setDescription('Géoportail LiDAR du<a target=_blank href="https://sitn.ne.ch/"> SITN</a>');
+  viewer.loadGUI(() => {
+    viewer.setLanguage('fr');
+    $("#menu_scene").next().show();
+    viewer.toggleSidebar();
+    
+    let section = $(`
+        <h3 id="menu_meta" class="accordion-header ui-widget"><span>Aide navigation</span></h3>
+        <div class="accordion-content ui-widget"></div>
+      `);
+      let content = section.last();
+      content.html(`
+          <img src="mouse.png" alt="mouse" width="100%"> 
+      `);
+      section.first().click(() => content.slideToggle());
+      section.insertBefore($('#menu_about'));
+    });
 
-                scene.addPointCloud(pointcloud);
-                viewer.fitToScreen();
-                
-                Potree.loadPointCloud("potree_data/clouds/2001/pointclouds/lidar2001_10levels/cloud.js", "SITN2001", e => {
-                    let scene = viewer.scene;
-                    let pointcloud = e.pointcloud;
-                    let material = pointcloud.material;
-                    material.size = 1.5;
-                    material.pointSizeType = Potree.PointSizeType.FIXED;
-                    material.shape = Potree.PointShape.SQUARE;
-                    pointcloud.visible = false;
-                    scene.addPointCloud(pointcloud);
-                    viewer.fitToScreen();
+    async function loadDatasets(){
+      let scene = viewer.scene;
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/stereo/2020/virtualcity/metadata.json"); 
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
 
-                });
-            });
+        pointcloud.name = "Virtual City bâti 3D > LiDAR";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.activeAttributeName = "rgba";
+        material.shape = Potree.PointShape.CIRCLE;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+        pointcloud.visible = false;
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/aerial/2018/metadata.json"); 
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
 
-		})
+        pointcloud.name = "SITN LiDAR 2018-2019";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.activeAttributeName = "rgba";
+        material.shape = Potree.PointShape.CIRCLE;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+        pointcloud.visible = true;
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/aerial/2016/trees2016/metadata.json");
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
 
-	</script>
-	
-	
-  </body>
+        pointcloud.name = "SITN LiDAR 2016 - arbres";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.shape = Potree.PointShape.CIRCLE;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+        pointcloud.visible = false;
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/aerial/2016/lidar2016/metadata.json");
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
+
+        pointcloud.name = "SITN LiDAR 2016";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.shape = Potree.PointShape.CIRCLE;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+        pointcloud.visible = false;
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/aerial/2010/metadata.json");
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
+
+        pointcloud.name = "SITN LiDAR 2010";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.activeAttributeName = "rgba";
+        material.shape = Potree.PointShape.CIRCLE;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+        pointcloud.visible = false;
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/aerial/2001/metadata.json");
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
+
+        pointcloud.name = "SITN LiDAR 2001";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.activeAttributeName = "rgba";
+        material.shape = Potree.PointShape.CIRCLE;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+        pointcloud.visible = false;
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/bathymetry/lacs3d/metadata.json");
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
+
+        pointcloud.name = "Lacs";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.activeAttributeName = "rgba";
+        material.shape = Potree.PointShape.CIRCLE;
+        pointcloud.visible = false;
+        scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+      }
+      {
+        let result = await Potree.loadPointCloud("https://sitn.ne.ch/lidar/pointclouds/bathymetry/bathy2020/metadata.json");
+        let pointcloud = result.pointcloud;
+        let material = pointcloud.material;
+
+        pointcloud.name = "Bathymétrie sonar 2012-2016 et lidar 2020";
+        material.size = 1.5;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        material.shape = Potree.PointShape.CIRCLE;
+        material.activeAttributeName = "rgba";
+        pointcloud.visible = true;
+        scene.addPointCloud(pointcloud);
+      }
+
+    };
+
+    loadDatasets();
+
+  </script>
+</body>
 </html>
